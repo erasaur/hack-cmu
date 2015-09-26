@@ -1,10 +1,16 @@
 <template name="history">
-  {{#if history.length}}
-    {{#each history}}
-      {{caption}}
-      {{image.url}}
-    {{/each}}
-  {{else}}
-    Looks like you haven't taken any pictures yet.
-  {{/if}}
+  {{#ionList}}
+    {{#if history.length}}
+      {{#each history}}
+        {{#ionItem avatar=true}}
+          <img src="{{image.url}}" width="30" height="30">
+          <h2>{{this.caption}}</h2>
+        {{/ionItem}}
+      {{/each}}
+    {{else}}
+      {{#ionItem}}
+        Looks like you haven't taken any pictures yet.
+      {{/ionItem}}
+    {{/if}}
+  {{/ionList}}
 </template>

@@ -8,4 +8,4 @@ Template.history.helpers({
   image: function () {
     return TempStore.findOne(this.imageId);
   }
-});
+ });
