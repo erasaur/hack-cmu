@@ -1,7 +1,11 @@
 var TempStore = GIBE.collections.TempStore;
+var storage = GIBE.helpers.storage;
 
 Template.history.helpers({
-  images: function () {
-    return TempStore.find().fetch();
+  history: function () {
+    return storage.get();
+  },
+  image: function () {
+    return TempStore.findOne(this.imageId);
   }
 });

@@ -1,9 +1,10 @@
 <template name="history">
-  {{#if loadingResults}}
-    {{> loading}}
-  {{else}}
-    {{#each images}}
-      <img src="{{this.url}}">
+  {{#if history.length}}
+    {{#each history}}
+      {{caption}}
+      {{image.url}}
     {{/each}}
+  {{else}}
+    Looks like you haven't taken any pictures yet.
   {{/if}}
 </template>

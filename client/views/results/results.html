@@ -1,0 +1,11 @@
+<template name="results">
+  <div class="list">
+    {{#each results}}
+      <a class="item item-thumbnail-left" href="{{viewItemURL.[0]}}">
+        <img src="{{galleryURL.[0]}}">
+        <h2>{{title.[0]}}</h2>
+        <p></p>
+      </a>
+    {{/each}}
+  </div>
+</template>
