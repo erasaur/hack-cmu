@@ -16,7 +16,7 @@ Package.onUse(function(api) {
   api.use('gibedat-deps');
 
   api.addFiles([
-    'routes/capture.js',
-    'routes/history.js'
+    'routes/history.js',
+    'routes/settings.js'
   ]);
 });
