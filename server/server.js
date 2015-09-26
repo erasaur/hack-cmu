@@ -3,6 +3,8 @@ var helpers = GIBE.helpers;
 var Future = Meteor.npmRequire('fibers/future');
 var request = Meteor.npmRequire('request');
 
+var api = "Sw5lTjNOWlw_BGPy1u7Vog";
+
 // var FormData = Meteor.npmRequire('form-data');
 
 Meteor.methods({
@@ -12,6 +14,8 @@ Meteor.methods({
     var buffer = new Buffer(base64, 'base64');
     // var buffer = helpers.uint8ToBuffer(uint8Array);
     var cloudSightKey = helpers.getSetting('cloudSightKey');
+
+    console.log(cloudSightKey);
 
     var future = new Future();
     var fsFile = new FS.File();
@@ -26,12 +30,10 @@ Meteor.methods({
         var image = new FS.File(fileObj);
         var url = Meteor.absoluteUrl() + image.url({ brokenIsFine: true }).substring(1);
 
-        console.log(url);
-
         var postOptions = {
           url: 'https://api.cloudsightapi.com/image_requests',
           headers: {
-            'Authorization': 'CloudSight ' + cloudSightKey,
+            'Authorization': 'CloudSight ' + api,
             // 'Content-Type': 'multipart/form-data'
           },
           formData: {
@@ -48,23 +50,29 @@ Meteor.methods({
           }
 
           body = JSON.parse(body);
-          console.log(body);
 
           var getOptions = {
             url: 'https://api.cloudsightapi.com/image_responses/' + body.token,
             headers: {
-              'Authorization': 'CloudSight ' + cloudSightKey
+              'Authorization': 'CloudSight ' + api
             }
           };
 
-          request.get(getOptions, function (error, response, body) {
-            if (error) {
-              throw error;
-            }
-            body = JSON.parse(body);
-            // console.log(response, body);
-            future.return(body.name);
-          });
+          var getImage = function () {
+            request.get(getOptions, function (error, response, body) {
+              if (error) {
+                throw error;
+              }
+              body = JSON.parse(body);
+              // console.log(response, body);
+              if (body.status === 'not completed') {
+                setTimeout(getImage, 500);
+              } else {
+                future.return(body);
+              }
+            });
+          };
+          getImage();
         });
       });
     });
