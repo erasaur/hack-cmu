@@ -16,7 +16,11 @@ Package.onUse(function(api) {
   api.use('gibedat-deps');
 
   api.addFiles([
+    'lib.js',
+    'helpers/helpers.js',
     'routes/history.js',
     'routes/settings.js'
   ]);
+
+  api.export('GIBE');
 });

@@ -18,6 +18,7 @@ Package.onUse(function(api) {
     'check',
     'ejson',
     'http',
+    'base64',
     'localstorage',
     'erasaur:meteor-lodash@3.10.1',
     'fourseven:scss@3.2.0',
@@ -27,6 +28,7 @@ Package.onUse(function(api) {
     'meteoric:ionic@0.1.19',
     'meteoric:ionic-sass@0.3.0',
     'meteoric:ionicons-sass@0.1.7',
+    'meteorhacks:npm@1.5.0',
     'reactive-var'
   ]);
 });
