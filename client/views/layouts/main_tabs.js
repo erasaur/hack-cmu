@@ -16,7 +16,12 @@ Template.main_tabs.events({
           console.log('error searching for image');
         }
         console.log(result);
+
+        Meteor.call('searchOnEbay', result, function (error, result) {
+          console.log(result);
+        });
       });
+
     });
   }
 });

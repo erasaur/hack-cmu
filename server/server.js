@@ -2,10 +2,10 @@ var TempStore = GIBE.collections.TempStore;
 var helpers = GIBE.helpers;
 var Future = Meteor.npmRequire('fibers/future');
 var request = Meteor.npmRequire('request');
+var xml2js = Meteor.npmRequire('xml2js');
+var http = Meteor.npmRequire('http');
 
 var api = "Sw5lTjNOWlw_BGPy1u7Vog";
-
-// var FormData = Meteor.npmRequire('form-data');
 
 Meteor.methods({
   'searchForImage': function (base64) {
@@ -14,8 +14,6 @@ Meteor.methods({
     var buffer = new Buffer(base64, 'base64');
     // var buffer = helpers.uint8ToBuffer(uint8Array);
     var cloudSightKey = helpers.getSetting('cloudSightKey');
-
-    console.log(cloudSightKey);
 
     var future = new Future();
     var fsFile = new FS.File();
@@ -64,11 +62,11 @@ Meteor.methods({
                 throw error;
               }
               body = JSON.parse(body);
-              // console.log(response, body);
+
               if (body.status === 'not completed') {
                 setTimeout(getImage, 500);
               } else {
-                future.return(body);
+                future.return(body.name);
               }
             });
           };
@@ -77,6 +75,37 @@ Meteor.methods({
       });
     });
 
+    return future.wait();
+  },
+  'searchOnEbay': function (image) {
+    check(image, String);
+    image = encodeURIComponent(image);
+
+    console.log(image);
+
+    var future = new Future();
+    var options = {
+      host: 'svcs.ebay.com',
+      path: '/services/search/FindingService/v1?OPERATION-NAME=findItemsByKeywords&SERVICE-VERSION=1.0.0&SERVICE-NAME=FindingService&SECURITY-APPNAME=SelinaBi-bdf9-45a7-b3fd-9a073f43827e&RESPONSE-DATA-FORMAT=XML&keywords=' + image
+    };
+
+    var callback = function (response) {
+      var str = '';
+      response.on('data', function (chunk) {
+        str += chunk;
+      });
+      response.on('end', function () {
+        var parser = new xml2js.Parser();
+        parser.parseString(str, function (err, result) {
+
+          console.log(result.findItemsByKeywordsResponse.searchResult[0].item)
+
+          future.return(result.findItemsByKeywordsResponse.searchResult[0].item);
+        });
+      });
+    };
+
+    http.request(options, callback).end();
     return future.wait();
   }
 });
