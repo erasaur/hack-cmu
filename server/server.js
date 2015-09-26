@@ -108,7 +108,7 @@ Meteor.methods({
         var parser = new xml2js.Parser();
         parser.parseString(str, function (err, result) {
 
-          console.log(result.findItemsByKeywordsResponse.searchResult[0].item)
+          console.log(result)
 
           future.return(result.findItemsByKeywordsResponse.searchResult[0].item);
         });

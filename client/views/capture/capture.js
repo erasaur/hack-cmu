@@ -3,6 +3,7 @@ var storage = helpers.storage;
 var TempStore = GIBE.collections.TempStore;
 
 Template.capture.onCreated(function () {
+  console.log('created');
   MeteorCamera.getPicture({}, function (error, data) {
     if (error) {
       console.log('unable to get picture');
@@ -19,14 +20,23 @@ Template.capture.onCreated(function () {
       console.log(caption);
 
       Meteor.call('searchOnEbay', caption, function (error, result) {
-        storage.add({
-          'caption': caption,
-          'imageId': TempStore.findOne({ '_id': -1 }),
-          'results': result
-        });
+        var processResult = function () {
+          if (!result) {
+            setTimeout(processResult, 100);
+          } else {
+            storage.add({
+              'caption': caption,
+              'imageId': TempStore.findOne({}, { sort: { '_id': -1 } })._id,
+              'results': result
+            });
 
-        Session.set('ebayResults', result);
-        Router.go('results');
+            console.log(result);
+
+            Session.set('ebayResults', result);
+            Router.go('results');
+          }
+        };
+        processResult();
       });
     });
   });
