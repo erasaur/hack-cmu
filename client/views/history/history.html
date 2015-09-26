@@ -1,4 +1,8 @@
 <template name="history">
+  {{#contentFor "headerTitle"}}
+    <h1 class="title">History</h1>
+  {{/contentFor}}
+
   {{#ionList}}
     {{#if history.length}}
       {{#each history}}
@@ -13,4 +17,5 @@
       {{/ionItem}}
     {{/if}}
   {{/ionList}}
+
 </template>
