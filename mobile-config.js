@@ -3,3 +3,5 @@ App.info({
   description: 'An iOS app built with Meteor',
   version: '0.0.1'
 });
+
+App.accessRule('*');

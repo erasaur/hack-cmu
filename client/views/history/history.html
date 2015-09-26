@@ -6,8 +6,7 @@
   {{#ionList}}
     {{#if history.length}}
       {{#each history}}
-        {{#ionItem avatar=true}}
-          <img src="{{image.url}}" width="30" height="30">
+        {{#ionItem}}
           <h2>{{this.caption}}</h2>
         {{/ionItem}}
       {{/each}}
