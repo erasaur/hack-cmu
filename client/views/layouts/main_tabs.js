@@ -19,6 +19,7 @@ Template.main_tabs.events({
 
         Meteor.call('searchOnEbay', result, function (error, result) {
           console.log(result);
+          Session.set('ebayResults', result);
         });
       });
 

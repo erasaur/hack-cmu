@@ -2,8 +2,24 @@
   {{#if loadingResults}}
     {{> loading}}
   {{else}}
-    {{#each images}}
-      <img src="{{this.url}}">
-    {{/each}}
+  {{#ionView}}
+    {{#ionContent}}
+      {{#ionList}}
+
+        {{#each images}}
+
+          {{#ionItem avatar=true}}
+
+            <img src="{{this.url}}" width=30 height=30>
+            <h2>{{this.caption}}</h2>
+
+
+          {{/ionItem}}
+
+        {{/each}}
+
+      {{/ionList}}
+    {{/ionContent}}
+  {{/ionView}}
   {{/if}}
 </template>
