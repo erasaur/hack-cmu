@@ -17,9 +17,9 @@ Package.onUse(function(api) {
     'ecmascript',
     'check',
     'ejson',
-    'http',
     'base64',
     'localstorage',
+    // 'froatsnook:request@2.58.0',
     'erasaur:meteor-lodash@3.10.1',
     'fourseven:scss@3.2.0',
     'iron:router@1.0.9',
@@ -29,6 +29,8 @@ Package.onUse(function(api) {
     'meteoric:ionic-sass@0.3.0',
     'meteoric:ionicons-sass@0.1.7',
     'meteorhacks:npm@1.5.0',
+    'cfs:standard-packages@0.5.9',
+    'cfs:filesystem@0.1.2',
     'reactive-var'
   ]);
 });

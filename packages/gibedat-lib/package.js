@@ -19,7 +19,8 @@ Package.onUse(function(api) {
     'lib.js',
     'helpers/helpers.js',
     'routes/history.js',
-    'routes/settings.js'
+    'routes/settings.js',
+    'collections/temp_store.js',
   ]);
 
   api.export('GIBE');

@@ -1,37 +1,71 @@
+var TempStore = GIBE.collections.TempStore;
 var helpers = GIBE.helpers;
 var Future = Meteor.npmRequire('fibers/future');
+var request = Meteor.npmRequire('request');
+
+// var FormData = Meteor.npmRequire('form-data');
 
 Meteor.methods({
-  'searchForImage': function (data) {
-    check(data, String);
+  'searchForImage': function (base64) {
+    // check(uint8Array, Uint8Array);
+
+    var buffer = new Buffer(base64, 'base64');
+    // var buffer = helpers.uint8ToBuffer(uint8Array);
+    var cloudSightKey = helpers.getSetting('cloudSightKey');
 
     var future = new Future();
-    var postOptions = {
-      headers: {
-        'Authorization': 'CloudSight ' + helpers.getSetting('cloudSightKey')
-      },
-      params: {
-        'image_request[image]': helpers.base64ToBuffer(data),
-        'image_request[locale]': 'en-US'
-      }
-    };
+    var fsFile = new FS.File();
 
-    HTTP.post('https://api.cloudsightapi.com/image_requests', postOptions, function (error, result) {
+    fsFile.attachData(buffer, { type: 'image/jpeg' }, function (error) {
       if (error) {
-        throw error;
+        console.log(error);
+        return;
       }
 
-      var getOptions = {
-        headers: {
-          'Authorization': 'CloudSight ' + get.setting('cloudSightKey')
-        }
-      };
+      TempStore.insert(fsFile, function (error, fileObj) {
+        var image = new FS.File(fileObj);
+        var url = Meteor.absoluteUrl() + image.url({ brokenIsFine: true }).substring(1);
 
-      HTTP.get('https://api.cloudsightapi.com/image_responses/' + result.token, getOptions, function (error, result) {
-        if (error) {
-          throw error;
-        }
-        future.return(result);
+        console.log(url);
+
+        var postOptions = {
+          url: 'https://api.cloudsightapi.com/image_requests',
+          headers: {
+            'Authorization': 'CloudSight ' + cloudSightKey,
+            // 'Content-Type': 'multipart/form-data'
+          },
+          formData: {
+            // 'image_request[image]': buffer,
+            'image_request[remote_image_url]': url,
+            // 'image_request[remote_image_url]': 'http://www.gearone.com/media/product-images/808fd49e51e8ed4a82d9430cedc707f0.jpg',
+            'image_request[locale]': 'en-US'
+          }
+        };
+
+        request.post(postOptions, function (error, response, body) {
+          if (error) {
+            throw error;
+          }
+
+          body = JSON.parse(body);
+          console.log(body);
+
+          var getOptions = {
+            url: 'https://api.cloudsightapi.com/image_responses/' + body.token,
+            headers: {
+              'Authorization': 'CloudSight ' + cloudSightKey
+            }
+          };
+
+          request.get(getOptions, function (error, response, body) {
+            if (error) {
+              throw error;
+            }
+            body = JSON.parse(body);
+            // console.log(response, body);
+            future.return(body.name);
+          });
+        });
       });
     });
 

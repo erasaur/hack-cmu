@@ -2,6 +2,8 @@
   {{#if loadingResults}}
     {{> loading}}
   {{else}}
-    history
+    {{#each images}}
+      <img src="{{this.url}}">
+    {{/each}}
   {{/if}}
 </template>
