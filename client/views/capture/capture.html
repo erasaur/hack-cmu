@@ -1,0 +1,13 @@
+<template name="capture">
+  {{> capture_nav}}
+
+  {{#ionView}}
+    {{#ionContent}}
+      {{#if loadingResults}}
+        {{> loading}}
+      {{else}}
+        capture
+      {{/if}}
+    {{/ionContent}}
+  {{/ionView}}
+</template>
