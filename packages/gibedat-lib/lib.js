@@ -1,0 +1,2 @@
+GIBE = {};
+GIBE.helpers = {};

@@ -12,4 +12,11 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.2.0.1');
+
+  api.use('gibedat-deps');
+
+  api.addFiles([
+    'routes/capture.js',
+    'routes/history.js'
+  ]);
 });
