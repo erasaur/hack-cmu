@@ -18,6 +18,16 @@ Meteor.methods({
     var future = new Future();
     var fsFile = new FS.File();
 
+    // var req = request.post('https://api.cloudsightapi.com/image_requests', function (err, resp, body) {
+    //   if (err) {
+    //     console.log('Error!');
+    //   } else {
+    //     console.log('URL: ' + body);
+    //   }
+    // });
+    // var form = req.form();
+    // form.append('file', buffer);
+
     fsFile.attachData(buffer, { type: 'image/jpeg' }, function (error) {
       if (error) {
         console.log(error);

@@ -18,8 +18,10 @@ Package.onUse(function(api) {
   api.addFiles([
     'lib.js',
     'helpers/helpers.js',
+    'helpers/storage.js',
+    'routes/capture.js',
     'routes/history.js',
-    'routes/settings.js',
+    'routes/results.js',
     'collections/temp_store.js',
   ]);
 
