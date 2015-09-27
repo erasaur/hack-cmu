@@ -2,20 +2,21 @@
   {{#contentFor "headerTitle"}}
     <h1 class="title">Results</h1>
   {{/contentFor}}
+
   <div class="list">
-  {{#if results}}
-    {{#each results}}
-      <a class="item item-thumbnail-left" href="{{viewItemURL.[0]}}">
-        <img src="{{galleryURL.[0]}}">
-        <h2>{{title.[0]}}</h2>
-        <p></p>
-      </a>
-    {{/each}}
-  {{else}}
-    <div class="item item-thumbnail-left">
-      <img src="http://2.bp.blogspot.com/-LXCsVXSpM9Q/TfrX3Vz4fkI/AAAAAAAACqk/kVJy0ZAd85M/s1600/Emoticon__Sad_Face_by_Nockor.jpg">
-      <h2>No Results...</h2>
-    </div>
-  {{/if}}
+    {{#if results.length}}
+      {{#each results}}
+        <a class="item item-thumbnail-left" href="{{viewItemURL.[0]}}">
+          <img src="{{galleryURL.[0]}}">
+          <h2>{{title.[0]}}</h2>
+          <p></p>
+        </a>
+      {{/each}}
+    {{else}}
+      <div class="item item-thumbnail-left">
+        <img src="http://2.bp.blogspot.com/-LXCsVXSpM9Q/TfrX3Vz4fkI/AAAAAAAACqk/kVJy0ZAd85M/s1600/Emoticon__Sad_Face_by_Nockor.jpg">
+        <h2>No Results...</h2>
+      </div>
+    {{/if}}
   </div>
 </template>
