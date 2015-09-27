@@ -6,6 +6,6 @@ Template.results.helpers({
       results = JSON.parse(results);
     }
 
-    return results;
+    return results !== -1 && results;
   }
 });

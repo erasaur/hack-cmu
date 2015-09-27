@@ -24,11 +24,13 @@ Template.capture.onCreated(function () {
           if (!result) {
             setTimeout(processResult, 100);
           } else {
-            storage.add({
-              'caption': caption,
-              'imageId': TempStore.findOne({}, { sort: { '_id': -1 } })._id,
-              'results': result
-            });
+            if (result !== -1) {
+              storage.add({
+                'caption': caption,
+                'imageId': TempStore.findOne({}, { sort: { '_id': -1 } })._id,
+                'results': result
+              });
+            }
 
             console.log(result);
 

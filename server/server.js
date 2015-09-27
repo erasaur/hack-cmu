@@ -110,7 +110,7 @@ Meteor.methods({
 
           console.log(result)
 
-          future.return(result.findItemsByKeywordsResponse.searchResult[0].item);
+          future.return(result.findItemsByKeywordsResponse.searchResult[0].item || -1);
         });
       });
     };
